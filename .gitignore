@@ -1,0 +1,6 @@
+.worktrees/
+node_modules/
+uploads/*
+!uploads/.gitkeep
+.env
+.superpowers/
