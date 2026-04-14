@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REVERSE TRACE</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="topbar">
+    <div class="logo">REVERSE TRACE</div>
+    <div class="tor-row">
+      <span class="tor-label">TOR PROXY</span>
+      <div class="toggle-pill" id="torToggle">
+        <span class="pill-opt" data-val="on">ON</span>
+        <span class="pill-opt active" data-val="off">OFF</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="upload-zone" id="dropZone">
+    <div class="upload-icon">drop</div>
+    <div class="upload-title">DROP FILES TO SCAN</div>
+    <div class="upload-sub">JPG / PNG / GIF / WEBP / MP4 / MOV / AVI -- multiple files supported</div>
+    <button class="btn-browse" id="browseBtn">[ BROWSE FILES ]</button>
+    <input type="file" id="fileInput" multiple accept=".jpg,.jpeg,.png,.gif,.webp,.mp4,.mov,.avi" style="display:none">
+  </div>
+
+  <div class="file-queue" id="fileQueue"></div>
+
+  <div class="engine-row">
+    <span class="engine-label">ENGINES:</span>
+    <div id="engineChips"></div>
+  </div>
+
+  <button class="btn-search" id="scanBtn">INITIATE SCAN</button>
+
+  <div class="results-container" id="resultsContainer" style="display:none">
+    <div class="file-tabs" id="fileTabs"></div>
+    <div class="engine-tabs" id="engineTabs"></div>
+    <div class="results-grid" id="resultsGrid"></div>
+    <div class="statusbar">
+      <span id="statusLeft">STANDBY</span>
+      <span id="statusTor"></span>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

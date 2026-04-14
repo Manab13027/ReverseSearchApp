@@ -4,4 +4,5 @@ uploads/*
 !uploads/.gitkeep
 config.local.js
 .env
+config.local.js
 .superpowers/
