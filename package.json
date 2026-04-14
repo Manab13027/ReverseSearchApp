@@ -21,5 +21,10 @@
   "devDependencies": {
     "jest": "^29.0.0",
     "nodemon": "^3.0.0"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^\\./(src/.*)$": "<rootDir>/$1"
+    }
   }
 }
