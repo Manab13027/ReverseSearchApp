@@ -15,7 +15,9 @@ const state = {
 
 async function boot() {
   const cfg = await fetch('/api/config/engines').then(r => r.json());
-  ENGINE_NAMES.forEach(name => { state.engines[name] = true; });
+  ENGINE_NAMES.forEach(function(name) {
+    state.engines[name] = cfg[name] !== false;
+  });
   renderEngineChips(cfg);
   bindEvents();
 }
@@ -277,15 +279,27 @@ function appendCard(r) {
 
   const card = document.createElement('a');
   card.className = 'result-card';
-  card.setAttribute('href', r.url);
+  let safeUrl = '#';
+  try {
+    const urlObj = new URL(r.url);
+    if (urlObj.protocol === 'http:' || urlObj.protocol === 'https:') safeUrl = r.url;
+  } catch (_) {}
+  card.setAttribute('href', safeUrl);
   card.setAttribute('target', '_blank');
   card.setAttribute('rel', 'noopener noreferrer');
 
   const thumbDiv = document.createElement('div');
   thumbDiv.className = 'card-thumb';
+  let safeThumbnail = null;
   if (r.thumbnail) {
+    try {
+      const tUrl = new URL(r.thumbnail);
+      if (tUrl.protocol === 'http:' || tUrl.protocol === 'https:') safeThumbnail = r.thumbnail;
+    } catch (_) {}
+  }
+  if (safeThumbnail) {
     const img = document.createElement('img');
-    img.setAttribute('src', r.thumbnail);
+    img.setAttribute('src', safeThumbnail);
     img.setAttribute('alt', '');
     img.setAttribute('loading', 'lazy');
     img.onerror = function() {
