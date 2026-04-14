@@ -10,7 +10,11 @@ async function search({ imagePath, sourceFile, frameIndex = null, useTor = false
     args.push(...getPuppeteerTorArgs());
   }
 
-  const browser = await puppeteer.launch({ headless: 'new', args });
+  const browser = await puppeteer.launch({
+    headless: true,
+    executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    args: [...args, '--disable-dev-shm-usage'],
+  });
   try {
     const page = await browser.newPage();
     await page.setUserAgent(

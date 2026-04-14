@@ -41,6 +41,28 @@ body::before {
 .tor-row { display: flex; align-items: center; gap: 0.5rem; }
 .tor-label { font-family: 'Share Tech Mono', monospace; font-size: 0.8em; color: #888; letter-spacing: 1px; }
 
+.tor-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #333;
+  display: inline-block;
+  transition: background 0.4s, box-shadow 0.4s;
+}
+.tor-dot.tor-up {
+  background: #00ff99;
+  box-shadow: 0 0 6px #00ff99, 0 0 12px #00ff9960;
+  animation: tor-pulse 2s ease-in-out infinite;
+}
+.tor-dot.tor-down {
+  background: #ff4d6d;
+  box-shadow: 0 0 4px #ff4d6d50;
+}
+@keyframes tor-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 .toggle-pill {
   background: #111;
   border: 1px solid #00ff9950;

@@ -24,5 +24,5 @@ module.exports = {
   video: {
     frameInterval: 5,  // extract one frame every N seconds
   },
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 42000,
 };

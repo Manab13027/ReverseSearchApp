@@ -13,6 +13,20 @@ const state = {
   engineStatus: {},
 };
 
+async function checkTorStatus() {
+  try {
+    const { running } = await fetch('/api/tor/status').then(r => r.json());
+    const dot = document.getElementById('torDot');
+    if (running) {
+      dot.className = 'tor-dot tor-up';
+      dot.title = 'Tor running';
+    } else {
+      dot.className = 'tor-dot tor-down';
+      dot.title = 'Tor not running';
+    }
+  } catch (_) {}
+}
+
 async function boot() {
   const cfg = await fetch('/api/config/engines').then(r => r.json());
   ENGINE_NAMES.forEach(function(name) {
@@ -20,6 +34,8 @@ async function boot() {
   });
   renderEngineChips(cfg);
   bindEvents();
+  checkTorStatus();
+  setInterval(checkTorStatus, 5000);
 }
 
 function renderEngineChips(cfg) {

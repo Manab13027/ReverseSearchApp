@@ -3,6 +3,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const net = require('net');
 const { v4: uuidv4 } = require('uuid');
 const config = require('./config');
 const { runSearch } = require('./src/orchestrator');
@@ -72,6 +73,18 @@ app.get('/api/search/:jobId/stream', async (req, res) => {
     delete jobs[req.params.jobId];
     res.end();
   }
+});
+
+app.get('/api/tor/status', (_req, res) => {
+  const sock = new net.Socket();
+  const timeout = 1000;
+  sock.setTimeout(timeout);
+  sock.connect(config.tor.port, config.tor.host, () => {
+    sock.destroy();
+    res.json({ running: true });
+  });
+  sock.on('error', () => res.json({ running: false }));
+  sock.on('timeout', () => { sock.destroy(); res.json({ running: false }); });
 });
 
 app.get('/api/config/engines', (_req, res) => {
