@@ -2,5 +2,6 @@
 node_modules/
 uploads/*
 !uploads/.gitkeep
+config.local.js
 .env
 .superpowers/
