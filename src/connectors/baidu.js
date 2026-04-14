@@ -61,20 +61,26 @@ async function search({ imagePath, sourceFile, frameIndex = null, useTor = false
     await page.goto(uploadData.data.url, { waitUntil: 'domcontentloaded', timeout: 20000 });
     await new Promise(r => setTimeout(r, 4000));
 
-    const raw = await page.evaluate(() =>
-      Array.from(document.querySelectorAll('a[href]'))
-        .filter(a => a.href.startsWith('http') && !a.href.includes('baidu.com'))
-        .slice(0, 10)
+    const raw = await page.evaluate(() => {
+      const imageExts = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico|avif|tiff)(\?|$)/i;
+      return Array.from(document.querySelectorAll('a[href]'))
+        .filter(a =>
+          a.href.startsWith('http') &&
+          !a.href.includes('baidu.com') &&
+          !imageExts.test(a.href)
+        )
+        .slice(0, 15)
         .map(a => {
           const img = a.querySelector('img') ||
             (a.closest('[class]') && a.closest('[class]').querySelector('img'));
           return {
             url: a.href,
-            title: a.textContent.trim().substring(0, 120) || '',
+            title: a.textContent.trim().replace(/\s+/g, ' ').substring(0, 120) || '',
             thumbnail: img ? img.src : null,
           };
         })
-    );
+        .filter((r, i, arr) => arr.findIndex(x => x.url === r.url) === i);
+    });
 
     return raw.map(r => ({ engine: ENGINE, ...r, score: null, sourceFile, frameIndex }));
   } finally {
